@@ -1,0 +1,23 @@
+{% block head %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Ticket Management System{% endblock %}</title>
+  {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('src/index.css') }}">
+  {% endblock %}
+{% endblock %}
+
+<body class="{% block body_class %}{% endblock %}">
+  {% block header %}{% endblock %}
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block footer %}{% endblock %}
+
+  {% block javascripts %}
+    <script src="{{ asset('src/main.jsx') }}"></script>
+  {% endblock %}
+</body>
+</html>

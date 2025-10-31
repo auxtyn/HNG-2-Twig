@@ -1,0 +1,81 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Dashboard - Ticket Management System{% endblock %}
+
+{% block content %}
+  <div class="py-8">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold">Dashboard</h1>
+      <a href="{{ path('ticket_new') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Create New Ticket
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-blue-100 rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold text-gray-700">Total Tickets</h3>
+        <p class="text-3xl font-bold mt-2">{{ stats.total }}</p>
+      </div>
+      <div class="bg-green-100 rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold text-gray-700">Open Tickets</h3>
+        <p class="text-3xl font-bold mt-2">{{ stats.open }}</p>
+      </div>
+      <div class="bg-yellow-100 rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold text-gray-700">In Progress</h3>
+        <p class="text-3xl font-bold mt-2">{{ stats.in_progress }}</p>
+      </div>
+      <div class="bg-gray-100 rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold text-gray-700">Closed Tickets</h3>
+        <p class="text-3xl font-bold mt-2">{{ stats.closed }}</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+      <!-- Recent Activity -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold mb-4">Recent Activity</h3>
+        {% for ticket in recent_tickets %}
+          <div class="mb-4 last:mb-0 border-b last:border-0 pb-4">
+            <div class="flex justify-between items-start">
+              <div>
+                <a href="{{ path('ticket_detail', {id: ticket.id}) }}" class="font-medium hover:text-blue-600">
+                  {{ ticket.title }}
+                </a>
+                <p class="text-sm text-gray-500">
+                  {{ ticket.created_at|date('M j, Y') }}
+                </p>
+              </div>
+              <span class="px-2 py-1 text-xs rounded-full
+                {% if ticket.status == 'open' %}bg-green-100 text-green-800
+                {% elseif ticket.status == 'in_progress' %}bg-yellow-100 text-yellow-800
+                {% else %}bg-gray-100 text-gray-800{% endif %}">
+                {{ ticket.status|replace({'_': ' '}) }}
+              </span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-semibold mb-4">Quick Stats</h3>
+        <div class="space-y-4">
+          <div class="flex justify-between">
+            <span>Response Rate</span>
+            <span class="font-medium">
+              {% if stats.total > 0 %}
+                {{ (stats.closed / stats.total * 100)|round }}%
+              {% else %}
+                N/A
+              {% endif %}
+            </span>
+          </div>
+          <div class="flex justify-between">
+            <span>Average Resolution Time</span>
+            <span class="font-medium">2.5 days</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

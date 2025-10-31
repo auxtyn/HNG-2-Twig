@@ -1,0 +1,78 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Login - Ticket Management System{% endblock %}
+
+{% block body_class %}min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4 sm:px-6 lg:px-8{% endblock %}
+
+{% block content %}
+  <div class="max-w-md w-full space-y-8">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="text-center text-3xl font-bold text-gray-900">Sign in to your account</h2>
+        <p class="text-center text-sm text-gray-600">Access the ticket management system</p>
+      </div>
+
+      {% if error %}
+        <div class="alert alert-destructive">
+          <span>{{ error }}</span>
+        </div>
+      {% endif %}
+
+      <form method="post" class="card-content space-y-6">
+        <div class="space-y-2">
+          <label for="username" class="label">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value="{{ form_data.username|default('') }}"
+            required
+            class="input"
+            placeholder="Enter your username"
+          />
+        </div>
+
+        <div class="space-y-2">
+          <label for="password" class="label">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            class="input"
+            placeholder="Enter your password"
+          />
+        </div>
+
+        {% if error %}
+          <div class="alert alert-destructive">
+            <span>{{ error }}</span>
+          </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary w-full">
+          Sign in
+        </button>
+      </form>
+
+      <div class="card-footer space-y-2">
+        <div class="text-center space-x-4">
+          <a href="{{ path('register') }}" class="text-sm text-blue-600 hover:text-blue-500">
+            Create an account
+          </a>
+          <a href="{{ path('forgot_password') }}" class="text-sm text-blue-600 hover:text-blue-500">
+            Forgot password?
+          </a>
+        </div>
+
+        <div class="mt-6 p-4 bg-gray-50 rounded-md">
+          <p class="text-xs font-medium text-gray-700 mb-2">Demo Credentials:</p>
+          <div class="text-xs text-gray-600 space-y-1">
+            <p><strong>Admin:</strong> admin / admin123</p>
+            <p><strong>User:</strong> user / user123</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
